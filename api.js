@@ -2,6 +2,7 @@ var _       = require('underscore');
 var https   = require('https');
 var Promise = require('bluebird');
 
+// Inputs httpOptions, outputs an object with "request" method
 function createApiWithHttpOptions(httpOptions) {
     var request = Promise.method(function(method, url) {
         var requestOptions = _.extend({}, httpOptions, {
@@ -9,7 +10,10 @@ function createApiWithHttpOptions(httpOptions) {
             'path': httpOptions.path + url
         });
 
-        return new Promise(function(resolve, reject) {
+        // Wrap Node's non-standard https.request in a convenient Promise
+        return new Promise(requestResolver);
+
+        function requestResolver(resolve, reject) {
             var request = https.request(requestOptions, function(response) {
 
                 var responseText = '';
@@ -18,6 +22,9 @@ function createApiWithHttpOptions(httpOptions) {
                 });
 
                 response.on('end', function() {
+                    // Naively assumes both:
+                    // - that the response is parseable JSON; and
+                    // - that it contains a property "objects"
                     var responseObj = JSON.parse(responseText);
                     resolve(responseObj.objects);
                 });
@@ -29,12 +36,12 @@ function createApiWithHttpOptions(httpOptions) {
             });
 
             request.end();
-        });
+        }
     });
 
     return {
         request: request
-    }
-};
+    };
+}
 
 module.exports = createApiWithHttpOptions;

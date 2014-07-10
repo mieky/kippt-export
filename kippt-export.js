@@ -2,18 +2,18 @@ var Promise = require('bluebird');
 
 var args = [].slice.call(process.argv, 2);
 if (args.length < 2) {
-    console.log("Usage: export <username> <api_token>");
+    console.log("Usage: kippt-export <username> <api_token>");
     console.log("Find your API Token here: http://developers.kippt.com/");
     process.exit(1);
 }
 
 var httpOptions = {
     hostname: "kippt.com",
-    path: "/api",
-    port: 443,
-    agent: false,
+    path:     "/api",
+    port:     443,
+    agent:    false,
     headers: {
-        'X-Kippt-Username': args[0],
+        'X-Kippt-Username':  args[0],
         'X-Kippt-API-Token': args[1]
     }
 };
@@ -21,16 +21,14 @@ var httpOptions = {
 var api = require('./api')(httpOptions);
 
 api.request('get', '/lists')
+    // Map each list into an object { title, clips }
     .map(function(list) {
         return Promise.props({
             title: list.title,
             clips: api.request('get', '/lists/' + list.id + '/clips')
         });
     })
-    // [
-    //    { title: "List 1", clips: [{}, ...] },
-    //    { title: "List 2", clips: [{}, ...] }, ...
-    // ]
+    // Preserve format, but pick only some interesting clip properties
     .map(function(list) {
         return Promise.props({
             title: list.title,
@@ -43,11 +41,9 @@ api.request('get', '/lists')
             })
         });
     })
+    // Pretty-print
     .then(function(clips) {
-        return JSON.stringify(clips, null, 2);
-    })
-    .then(function(clipsJson) {
-        console.log(clipsJson);
+        console.log(JSON.stringify(clips, null, 2));
     })
     .catch(function(err) {
         console.log("Error:", err.message);

@@ -3,17 +3,17 @@
   "description": "Export your Kippt lists",
   "version": "0.0.1",
   "author": "Mike Arvela <mike@arvela.net>",
+  "dependencies": {
+    "bluebird": "^2.2.1",
+    "underscore": "~1.6.0"
+  },
   "keywords": [
     "kippt",
     "export"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "main": "kippt-export.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "bluebird": "^2.2.1",
-    "underscore": "~1.6.0"
   }
 }
