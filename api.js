@@ -11,14 +11,15 @@ module.exports = function(options) {
 
         return new Promise(function(resolve, reject) {
             var request = https.request(requestOptions, function(response) {
+
                 var responseText = '';
                 response.on('data', function(chunk) {
                     responseText += chunk;
                 });
 
                 response.on('end', function() {
-                    var responseJson = JSON.parse(responseText);
-                    resolve(responseJson);
+                    var responseObj = JSON.parse(responseText);
+                    resolve(responseObj.objects);
                 });
             });
 
