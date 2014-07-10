@@ -7,7 +7,7 @@ if (args.length < 2) {
     process.exit(1);
 }
 
-var options = {
+var httpOptions = {
     hostname: "kippt.com",
     path: "/api",
     port: 443,
@@ -18,12 +18,8 @@ var options = {
     }
 };
 
-var api = require('./api')(options);
+var api = require('./api')(httpOptions);
 
-/*Promise.all([
-    { title: "Eka", id: 412954 },
-    { title: "Toka", id: 282244 }
-])*/
 api.request('get', '/lists')
     .map(function(list) {
         return Promise.props({
@@ -32,8 +28,8 @@ api.request('get', '/lists')
         });
     })
     // [
-    //    { title: ..., clips: ... },
-    //    { title: ..., clips: ... }, ...
+    //    { title: "List 1", clips: [{}, ...] },
+    //    { title: "List 2", clips: [{}, ...] }, ...
     // ]
     .map(function(list) {
         return Promise.props({
@@ -48,8 +44,11 @@ api.request('get', '/lists')
         });
     })
     .then(function(clips) {
-        console.log(JSON.stringify(clips, null, 2));
+        return JSON.stringify(clips, null, 2);
+    })
+    .then(function(clipsJson) {
+        console.log(clipsJson);
     })
     .catch(function(err) {
-        console.log("error:", err);
+        console.log("Error:", err.message);
     });

@@ -2,11 +2,11 @@ var _       = require('underscore');
 var https   = require('https');
 var Promise = require('bluebird');
 
-module.exports = function(options) {
-    var apiPromise = Promise.method(function(method, url) {
-        var requestOptions = _.extend({}, options, {
+function createApiWithHttpOptions(httpOptions) {
+    var request = Promise.method(function(method, url) {
+        var requestOptions = _.extend({}, httpOptions, {
             'method': method,
-            'path': options.path + url
+            'path': httpOptions.path + url
         });
 
         return new Promise(function(resolve, reject) {
@@ -33,6 +33,8 @@ module.exports = function(options) {
     });
 
     return {
-        request: apiPromise
+        request: request
     }
 };
+
+module.exports = createApiWithHttpOptions;
