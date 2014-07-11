@@ -6,7 +6,7 @@ Using the [Kippt API](http://developers.kippt.com/), exports your Kippt Lists in
 
 Requirements:
 - [Node](nodejs.org) v0.10+.
-- Kippt username (comes with an [API key](developers.kippt.com))
+- Kippt username (comes with an [API key](http://developers.kippt.com))
 
 ### Install
 
