@@ -11,8 +11,6 @@ if (args.length < 2) {
 var httpOptions = {
     hostname: "kippt.com",
     path:     "/api",
-    port:     443,
-    agent:    false,
     headers: {
         'X-Kippt-Username':  args[0],
         'X-Kippt-API-Token': args[1]
@@ -21,9 +19,8 @@ var httpOptions = {
 
 var api = require('./api')(httpOptions);
 
-api
-    .lists()                 // Get Kippt lists & clips in "base format"
-    .then(netscaper)         // Convert into Netscape bookmarks HTML
-    .then(function(html) {
+api.lists()                      // Get Kippt lists & clips in "base format"
+    .then(netscaper)             // Convert into Netscape bookmarks HTML
+    .then(function(html) {       // Output
         process.stdout.write(html);
     });

@@ -1,17 +1,27 @@
+/*
+    Given httpOptions, outputs a ready-to-use API access object.
+
+    For example:
+
+    var api = require('./api')(httpOptions);
+    api.lists().then(function(json) {
+        console.log(JSON.stringify(json, null, 2));
+    });
+*/
+
 var _       = require('underscore');
 var https   = require('https');
 var Promise = require('bluebird');
 
-// Inputs httpOptions, outputs an object with "request" method
 function createApiWithHttpOptions(httpOptions) {
 
+    // Wrap Node's non-standard https.request in a convenient Bluebird Promise
     var request = Promise.method(function(method, url) {
         var requestOptions = _.extend({}, httpOptions, {
             'method': method,
             'path': httpOptions.path + url
         });
 
-        // Wrap Node's non-standard https.request in a convenient Promise
         return new Promise(requestResolver);
 
         function requestResolver(resolve, reject) {
@@ -40,6 +50,8 @@ function createApiWithHttpOptions(httpOptions) {
         }
     });
 
+    // Request Kippt lists, clips for each of them, and filter only
+    // the properties we're interested in.
     function lists() {
         return request('get', '/lists')
             // Map each list into an object { title, clips }
@@ -50,6 +62,7 @@ function createApiWithHttpOptions(httpOptions) {
                 });
             })
             // Preserve format, but pick only some interesting clip properties
+            // (yes, there's redundant repetition here)
             .map(function(list) {
                 return Promise.props({
                     title: list.title,

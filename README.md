@@ -8,12 +8,9 @@ Requirements:
 - Node v0.10+.
 - Kippt username (comes with an [API key](developers.kippt.com))
 
-#### Install
-`npm install -g kippt-export`
+**Install**: `npm install -g kippt-export`
 
-#### Run
-
-`kippt-export <username> <api_key>`
+**Run**: `kippt-export <username> <api_key>`
 
 Outputs something like:
 
