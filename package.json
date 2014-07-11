@@ -1,7 +1,7 @@
 {
   "name": "kippt-export",
   "description": "Export your Kippt lists into a Netscape bookmarks file",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Mike Arvela <mike@arvela.net>",
   "bin": "./kippt-export.js",
   "bugs": {

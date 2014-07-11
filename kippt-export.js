@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var netscaper = require('./netscaper');
 
 var args = [].slice.call(process.argv, 2);
