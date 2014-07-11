@@ -5,12 +5,20 @@ Using the [Kippt API](http://developers.kippt.com/), exports your Kippt Lists in
 ## Usage
 
 Requirements:
-- Node v0.10+.
+- [Node](nodejs.org) v0.10+.
 - Kippt username (comes with an [API key](developers.kippt.com))
 
-**Install**: `npm install -g kippt-export`
+### Install
 
-**Run**: `kippt-export <username> <api_key>`
+`npm install -g kippt-export`
+
+### Run
+
+`kippt-export <username> <api_key>`
+
+You can also write directly into an HTML file:
+
+`kippt-export <username> <api_key> >bookmarks.html`
 
 Outputs something like:
 
