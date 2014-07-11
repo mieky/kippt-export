@@ -1,6 +1,6 @@
 # kippt-export
 
-Using the [Kippt API](http://developers.kippt.com/), exports your Kippt Lists into [Netscape Bookmarks](https://github.com/bahamas10/node-netscape-bookmarks) HTML format which, you might or might not be able to import into another service.
+Using the [Kippt API](http://developers.kippt.com/), exports your Kippt Lists into [Netscape Bookmarks](https://github.com/bahamas10/node-netscape-bookmarks) HTML format which, you can import into your web browser – maybe even into another bookmarking service!
 
 To see if the file format matches your needs, you can try create a sample HTML with:
 `npm install && node ns-test >bookmarks.html`
@@ -38,5 +38,9 @@ $ node kippt-export mieky 4d76dcf1feef00db9d834d76dcf1fe3ef4d76dcf
 </DL><p>
 
 ```
+
+## Version history
+
+**0.0.1** – First release, exports bookmarks in Netscape HTML format.
 
 Licensed under MIT.
