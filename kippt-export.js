@@ -20,28 +20,7 @@ var httpOptions = {
 
 var api = require('./api')(httpOptions);
 
-api.request('get', '/lists')
-    // Map each list into an object { title, clips }
-    .map(function(list) {
-        return Promise.props({
-            title: list.title,
-            clips: api.request('get', '/lists/' + list.id + '/clips')
-        });
-    })
-    // Preserve format, but pick only some interesting clip properties
-    .map(function(list) {
-        return Promise.props({
-            title: list.title,
-            clips: Promise.all(list.clips).map(function(clip) {
-                return {
-                    url: clip.url,
-                    title: clip.title,
-                    created: clip.created
-                };
-            })
-        });
-    })
-    // Pretty-print
+api.lists()
     .then(function(clips) {
         console.log(JSON.stringify(clips, null, 2));
     })
