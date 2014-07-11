@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 
 // Inputs httpOptions, outputs an object with "request" method
 function createApiWithHttpOptions(httpOptions) {
+
     var request = Promise.method(function(method, url) {
         var requestOptions = _.extend({}, httpOptions, {
             'method': method,
@@ -45,7 +46,7 @@ function createApiWithHttpOptions(httpOptions) {
             .map(function(list) {
                 return Promise.props({
                     title: list.title,
-                    clips: api.request('get', '/lists/' + list.id + '/clips')
+                    clips: request('get', '/lists/' + list.id + '/clips')
                 });
             })
             // Preserve format, but pick only some interesting clip properties
@@ -62,8 +63,8 @@ function createApiWithHttpOptions(httpOptions) {
                 });
             })
             .catch(function(err) {
-                console.log("Error:", err.message);
-            });        
+                console.log("Error fetching lists from Kippt:", err.message);
+            });
     }
 
     return {

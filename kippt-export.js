@@ -1,4 +1,4 @@
-var Promise = require('bluebird');
+var netscaper = require('./netscaper');
 
 var args = [].slice.call(process.argv, 2);
 if (args.length < 2) {
@@ -20,10 +20,9 @@ var httpOptions = {
 
 var api = require('./api')(httpOptions);
 
-api.lists()
-    .then(function(clips) {
-        console.log(JSON.stringify(clips, null, 2));
-    })
-    .catch(function(err) {
-        console.log("Error:", err.message);
+api
+    .lists()                 // Get Kippt lists & clips in "base format"
+    .then(netscaper)         // Convert into Netscape bookmarks HTML
+    .then(function(html) {
+        process.stdout.write(html);
     });
